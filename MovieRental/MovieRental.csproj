@@ -41,6 +41,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Customer.cs" />
+    <Compile Include="Models\ChildrenMovie.cs" />
+    <Compile Include="Models\RentCalculatorBase.cs" />
+    <Compile Include="Models\NewReleaseMovie.cs" />
+    <Compile Include="Models\RegularMovie.cs" />
     <Compile Include="Movie.cs" />
     <Compile Include="Rental.cs" />
     <Compile Include="TestClass.cs" />
@@ -48,6 +52,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

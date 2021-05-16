@@ -1,20 +1,10 @@
 ﻿// NUnit 3 tests
 // See documentation : https://github.com/nunit/docs/wiki/NUnit-Documentation
-using System;
 
 namespace MovieRental
 {
-    public class Movie
+    internal class Movie
     {
-        private string title;
-        private Type type;
-
-        public Movie(string title, Type type)
-        {
-            this.title = title;
-            this.type = type;
-        }
-
         public enum Type
         {
             NEW_RELEASE,
@@ -22,17 +12,16 @@ namespace MovieRental
             CHILDREN
         }
 
-        public string getTitle()
+        public Movie(string title, Type type)
         {
-            return title;
+            Title = title;
+            PriceCode = type;
         }
-        public Type getPriceCode()
-        {
-            return type;
-        }
-        public override string ToString()
-        {
-            return title;
-        }
+
+        internal string Title { get; }
+
+        internal Type PriceCode { get; }
+
+        public override string ToString() => Title;
     }
 }

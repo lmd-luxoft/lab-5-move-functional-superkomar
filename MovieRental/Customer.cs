@@ -1,7 +1,5 @@
 ﻿// NUnit 3 tests
 // See documentation : https://github.com/nunit/docs/wiki/NUnit-Documentation
-using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,60 +7,40 @@ namespace MovieRental
 {
     public class Customer
     {
-        List<Rental> rentals = new List<Rental>();
-        private string name;
+        private readonly List<Rental> rentals = new List<Rental>();
 
         public Customer(string name)
         {
-            this.name = name;
-        }
-        public string getName()
-        {
-            return name;
+            Name = name;
         }
 
-        internal void addRental(Rental rental)
+        public string Name { get; }
+
+        internal void AddRental(Rental rental)
         {
            rentals.Add(rental);
         }
 
-        internal string statement()
+        internal string GetReport()
         {
-            StringBuilder report = new StringBuilder();
-            report.Append($"учет аренды для {getName()}\n");
-            double totalAmount = 0;
+            var report = new StringBuilder();
+
+            report.Append($"учет аренды для {Name}\n");
             
-            int frequentRenterPoints = 0;
+            double totalRenta = 0;
+            int rentPoints = 0;
             foreach (var item in rentals)
             {
-                double thisAmount = 0;
-                switch (item.getMovie().getPriceCode())
-                {
-                    case Movie.Type.REGULAR:
-                        thisAmount += 2;
-                        if(item.getDaysRented() > 2)
-                            thisAmount += (item.getDaysRented() - 2) * 15;
-                        break;
-                    case Movie.Type.NEW_RELEASE:
-                        thisAmount += item.getDaysRented() * 3;
-                        break;
-                    case Movie.Type.CHILDREN:
-                        thisAmount += 15;
-                        if(item.getDaysRented() > 3)
-                            thisAmount += (item.getDaysRented() - 3) * 15;
-                        break;
-                }
-                
-                //добавить очки для активного арендатора
-                frequentRenterPoints++;
-                //бонус за аренду новинки на два дня
-                if (item.getMovie().getPriceCode() == Movie.Type.NEW_RELEASE && item.getDaysRented() > 1)
-                    frequentRenterPoints++;
-                report.Append($"\t{item.getMovie()}\t{thisAmount}\n");
-               
-                totalAmount += thisAmount;
+                double itemRent = item.CountRentPrice();
+                totalRenta += itemRent;
+
+                rentPoints += item.GetRentPoints();
+
+                report.Append($"\t{item.Movie}\t{itemRent}\n");
             }
-            report.Append($"Сумма задолженности составляет {totalAmount}\nВы заработали {frequentRenterPoints} очков за активность");
+
+            report.Append($"Сумма задолженности составляет {totalRenta}\nВы заработали {rentPoints} очков за активность");
+
             return report.ToString();
         }
     }
